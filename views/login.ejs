@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=1,initial-scale=1,user-scalable=1" />
+	<title>Login ITSC APPs</title>	
+	
+	<link rel="stylesheet" href="/vendor/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/login/styles.css" />
+
+</head>
+<body>
+
+	<section class="container" id="forma1" style="display: block">
+			<section class="login-form">
+				<form method="post" action="/login/" role="login">
+					<img src="/logo_itsc.png" style="max-width:100%; max-height:100%;" />
+					<input type="text" name="usuario" placeholder="Usuario" required class="form-control input-lg" />
+					<input type="password" name="clave" placeholder="Contraseña" required class="form-control input-lg" />
+					<input type="checkbox" name="ultimo_login" value="Y"> Continuar con datos último login
+					<label id="msg" style="font-weight: bold; color: red; display: none"></label>
+					<button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Ingresar</button>
+				</form>
+				<div class="form-links">
+					<a href="http://www.itsc.ec">www.itsc.ec</a>
+				</div>
+			</section>
+	</section>
+	
+	<script src="/vendor/jquery-3.3.1.slim.min.js"></script>
+	<script src="/vendor/popper.min.js"></script>
+	<script src="/vendor/bootstrap.min.js"></script>
+    <script>
+        var message = new URL(document.URL).searchParams.get('msg')
+		var element = document.getElementById('msg')
+		
+		if (message) {
+			element.style.display = 'block'
+			element.innerHTML = message 
+		}
+    </script>
+</body>
+</html>
