@@ -43,7 +43,9 @@ router.post('/login', async function (req, res, next) {
 
     try {
 
-        if (req.body.ultimo_login || req.body.ultimo_login === 'Y') {
+        console.log(req.body.ultimo_login)
+
+        if (req.body.ultimo_login !== 'Y') {
             var data_last_log = await getLastLogin(req.body.usuario, req.body.clave);
             
             if (data_last_log.length === 0) {
