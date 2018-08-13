@@ -32,12 +32,18 @@ angular.module('app', ['ui.router'])
     }])
     .controller('bitacora_crear', ["$scope", "oportunidad", "$http", "$state", function($scope, gestion, $http, $state){
 
-        $http.get('/referencia/actividad')
+        $scope.ref_actividad = [
+            {key: "A", value: "Ronda"}, 
+            {key: "B", value: "Guardia nocturna"}, 
+            {key: "C", value: "Denuncia de robo"}
+        ];
+
+        /*$http.get('/referencia/actividad')
             .then(res => {
                 $scope.ref_actividad = res.data;
 
             })
-            .catch(e => alert(e.status +" "+ e.statusText))
+            .catch(e => alert(e.status +" "+ e.statusText))*/
 
         $scope.fecha_gestion = new Date();
 
@@ -49,7 +55,10 @@ angular.module('app', ['ui.router'])
 
             const img = document.querySelector('#screenshot img');
             const video = document.querySelector('#screenshot video');
-            const constraints = { video: true }
+            const constraints = { video: {
+                width: { ideal: 4096 },
+                height: { ideal: 2160 }
+            }}
 
             const canvas = document.createElement('canvas');
             video.style.display = 'block'
@@ -57,15 +66,34 @@ angular.module('app', ['ui.router'])
 
             navigator.mediaDevices.getUserMedia(constraints).then(handleSuccess).catch(handleError);
 
-            video.onclick = function() {
+            /*video.onclick = function() {
                 canvas.width = video.videoWidth;
                 canvas.height = video.videoHeight;
                 canvas.getContext('2d').drawImage(video, 0, 0);
+                
+                //console.log(canvas.getContext('2d').getImageData(0,0,canvas.width, canvas.height))
+                
                 // Other browsers will fall back to image/png
+                img.src = canvas.to
                 img.src = canvas.toDataURL('image/png');
                 stopStream();
                 video.style.display = 'none'
                 img.style.display = 'block'
+            }*/
+
+            video.onclick = () => {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0);
+
+                canvas.toBlob(blob => {
+                    var url = URL.createObjectURL(blob)
+                    img.src = url
+
+                    stopStream();
+                    video.style.display = 'none'
+                    img.style.display = 'block'
+                }, 'image/jpeg', 1)
             }
 
 
@@ -100,7 +128,7 @@ angular.module('app', ['ui.router'])
                 
             } catch (e) { console.log(e); alert ("error, crear gestion"); } 
             */
-            alert("Version beta");    
+            alert("Version beta, bitácora registrada a las " + new Date() );    
         }
 
         console.log("gestion.data");

@@ -22,24 +22,35 @@
         </div>-->
 
         <div class="form-group">
-            <label class="control-label col-sm-8"> Foto 2 </label>
-            <div id="screenshot" class="col-sm-8" style="text-align:center;">
-                <video class="videostream img-fluid" autoplay="" style="display: none;"></video>
-                <img class="img-fluid" alt="Click para tomar foto" ng-click="tomarFoto()"/>
+            <!--<label class="control-label col-sm-8">Tipo Novedad</label>-->
+            <div class="col-sm-8">
+                <select required class="form-control"  
+                    ng-model="tipo_actividad"
+                    ng-options="ref.key as ref.value for ref in ref_actividad">
+                    <option value="" selected disabled>Típo Novedad</option>
+                </select>
             </div>
         </div>
 
-        <div class="form-group">
+        <!--<div class="form-group">
             <label class="control-label col-sm-8">Fecha</label>
             <div class="col-sm-8">
                 <input required class="form-control" ng-model="fecha_gestion" type="date">
             </div>
+        </div>-->
+
+        <div class="form-group">
+            <!--<label class="control-label col-sm-8">Comentarios</label>-->
+            <div class="col-sm-8">
+                <input required class="form-control" type="text" placeholder="Comentarios" ng-model="gestion">
+            </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-sm-8">Comentarios</label>
-            <div class="col-sm-8">
-                <input required class="form-control" type="text" ng-model="gestion">
+            <label class="control-label col-sm-8"> Evidencia </label>
+            <div id="screenshot" class="col-sm-8" style="text-align:center;">
+                <video class="videostream img-fluid" autoplay="" style="display: none;"></video>
+                <img class="img-fluid" alt="Click para tomar foto de evidencia" ng-click="tomarFoto()"/>
             </div>
         </div>
 
