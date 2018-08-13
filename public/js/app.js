@@ -47,35 +47,40 @@ angular.module('app', ['ui.router'])
 
         $scope.tomarFoto = async () => {
 
-            try {
-                const img = document.querySelector('#screenshot img');
-                const video = document.querySelector('#screenshot video');
-                const constraints = { video: true }
+            const img = document.querySelector('#screenshot img');
+            const video = document.querySelector('#screenshot video');
+            const constraints = { video: true }
 
-                const canvas = document.createElement('canvas');
-                video.style.display = 'block'
-                img.style.display = 'none'
+            const canvas = document.createElement('canvas');
+            video.style.display = 'block'
+            img.style.display = 'none'
 
-                var stream = await navigator.mediaDevices.getUserMedia(constraints);
+            navigator.mediaDevices.getUserMedia(constraints).then(handleSuccess).catch(handleError);
+
+            video.onclick = function() {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0);
+                // Other browsers will fall back to image/png
+                img.src = canvas.toDataURL('image/png');
+                stopStream();
+                video.style.display = 'none'
+                img.style.display = 'block'
+            }
+
+
+            function handleSuccess(stream) {
+                window.stream = stream; // make stream available to console
                 video.srcObject = stream;
+            }
 
-                video.onclick = function() {
-                    canvas.width = video.videoWidth;
-                    canvas.height = video.videoHeight;
-                    canvas.getContext('2d').drawImage(video, 0, 0);
-                    // Other browsers will fall back to image/png
-                    img.src = canvas.toDataURL('image/png');
-                    stream.stop()
-                    video.style.display = 'none'
-                    img.style.display = 'block'
-                }
-            } catch (e) {
+            function handleError(error) {
                 console.error('Error: ', error);
             }
 
-            function handleSuccess(stream) {
-                screenshotButton.disabled = false;
-                video.srcObject = stream;
+            function stopStream() {
+                console.log(window.stream.getTracks())
+                window.stream.getTracks().forEach(track => track.stop())
             }
         }
         
